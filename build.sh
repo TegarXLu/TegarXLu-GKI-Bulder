@@ -152,7 +152,7 @@ MODULE_SYMVERS="$KSRC/out/Module.symvers"
 
 text=$(
   cat << EOF
-*==== Krenol CI ====*
+*==== SuiKernel Builder ====*
 🐧 *Linux Version*: $LINUX_VERSION
 📅 *Build Date*: $KBUILD_BUILD_TIMESTAMP
 📛 *KernelSU*: ${KSU}$(ksu_included && echo " | $KSU_VERSION")
