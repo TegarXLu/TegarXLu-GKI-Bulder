@@ -1,0 +1,4 @@
+sudo: a terminal is required to read the password; either use the -S option to read from standard input or configure an askpass helper
+sudo: a password is required
+[ERROR] Failed at line 14 [sudo timedatectl set-timezone "$TIMEZONE"]
+{"ok":false,"error_code":404,"description":"Not Found"}{"ok":false,"error_code":404,"description":"Not Found"}
