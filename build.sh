@@ -11,7 +11,7 @@ source $workdir/config.sh
 source $workdir/functions.sh
 
 # Set timezone
-sudo timedatectl set-timezone "$TIMEZONE"
+export TZ="$TIMEZONE"
 
 # Clone kernel source
 KSRC="$workdir/ksrc"
