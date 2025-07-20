@@ -90,7 +90,7 @@ jobs:
 
             # Handle case when $LATEST_TAG doesn't contain $KERNEL_NAME or is empty
             if [[ -z "$LATEST_TAG" ]] || ! echo "$LATEST_TAG" | grep -q "$KERNEL_NAME"; then
-                RELEASE_TAG="$KERNEL_NAME-r1"
+                RELEASE_TAG="$KERNEL_NAME-HSKY-1"
             else
                 RELEASE_TAG="$LATEST_TAG"
                 # Increment the release number
