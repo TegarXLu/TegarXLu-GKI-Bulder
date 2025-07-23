@@ -90,31 +90,31 @@ jobs:
 
             # Handle case when $LATEST_TAG doesn't contain $KERNEL_NAME or is empty
             if [[ -z "$LATEST_TAG" ]] || ! echo "$LATEST_TAG" | grep -q "$KERNEL_NAME"; then
-                RELEASE_TAG="$KERNEL_NAME-HSYK1"
+                RELEASE_TAG="$KERNEL_NAME-HSKY1"
             else
                 RELEASE_TAG="$LATEST_TAG"
-                # Check if it's already using HSYK format
-                if echo "$RELEASE_TAG" | grep -q "HSYK"; then
-                    # Extract current HSYK number and increment
-                    CURRENT_NUM=$(echo "$RELEASE_TAG" | sed -n 's/.*HSYK\([0-9]\+\).*/\1/p')
+                # Check if it's already using HSKY format
+                if echo "$RELEASE_TAG" | grep -q "HSKY"; then
+                    # Extract current HSKY number and increment
+                    CURRENT_NUM=$(echo "$RELEASE_TAG" | sed -n 's/.*HSKY\([0-9]\+\).*/\1/p')
                     if [[ -n "$CURRENT_NUM" ]]; then
                         NEW_NUM=$((CURRENT_NUM + 1))
-                        RELEASE_TAG="$KERNEL_NAME-HSYK$NEW_NUM"
+                        RELEASE_TAG="$KERNEL_NAME-HSKY$NEW_NUM"
                     else
                         # Fallback if extraction fails
-                        RELEASE_TAG="$KERNEL_NAME-HSYK1"
+                        RELEASE_TAG="$KERNEL_NAME-HSKY1"
                     fi
                 else
-                    # Convert from old r format to new HSYK format
+                    # Convert from old r format to new HSKY format
                     # Extract the number from old format (e.g., SuiKernel-r5 -> 5)
                     OLD_NUM=$(echo "$RELEASE_TAG" | sed -n 's/.*-r\([0-9]\+\).*/\1/p')
                     if [[ -n "$OLD_NUM" ]]; then
-                        # Start HSYK numbering from the old number + 1
+                        # Start HSKY numbering from the old number + 1
                         NEW_NUM=$((OLD_NUM + 1))
-                        RELEASE_TAG="$KERNEL_NAME-HSYK$NEW_NUM"
+                        RELEASE_TAG="$KERNEL_NAME-HSKY$NEW_NUM"
                     else
                         # Fallback if we can't extract the old number
-                        RELEASE_TAG="$KERNEL_NAME-HSYK1"
+                        RELEASE_TAG="$KERNEL_NAME-HSKY1"
                     fi
                 fi
             fi
