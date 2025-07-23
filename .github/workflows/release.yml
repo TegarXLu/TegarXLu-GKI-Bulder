@@ -43,32 +43,32 @@ jobs:
         run: |
           # Find the info.txt file
           info_file=$(find release_files -name "info.txt" -type f | head -1)
-          
+
           if [[ -f "$info_file" ]]; then
             echo "Found info.txt at: $info_file"
-            
+
             # Extract variables safely without using functions.sh
             while IFS='=' read -r key value; do
               # Skip empty lines and comments
               [[ -z "$key" || "$key" =~ ^#.*$ ]] && continue
-              
+
               # Clean up whitespace
               key=$(echo "$key" | xargs)
               value=$(echo "$value" | xargs)
-              
+
               # Validate that we have both key and value
               if [[ -n "$key" && -n "$value" ]]; then
                 echo "Setting: $key=$value"
                 echo "$key=$value" >> $GITHUB_ENV
               fi
             done < "$info_file"
-            
+
             echo "Variables extracted successfully"
           else
             echo "Warning: info.txt not found in artifacts"
             echo "Available files:"
             find release_files -type f -name "*.txt" || echo "No .txt files found"
-            
+
             # Set default values to prevent pipeline failure
             echo "KERNEL_NAME=SuiKernel" >> $GITHUB_ENV
             echo "LINUX_VERSION=5.10" >> $GITHUB_ENV
@@ -76,7 +76,7 @@ jobs:
             echo "SUKISU_VERSION=unknown" >> $GITHUB_ENV
             echo "SUSFS_VERSION=unknown" >> $GITHUB_ENV
             echo "RELEASE_REPO=LoggingNewMemory/SuiKernel-Releases" >> $GITHUB_ENV
-            
+
             echo "Using default values to continue release process"
           fi
 
@@ -90,11 +90,33 @@ jobs:
 
             # Handle case when $LATEST_TAG doesn't contain $KERNEL_NAME or is empty
             if [[ -z "$LATEST_TAG" ]] || ! echo "$LATEST_TAG" | grep -q "$KERNEL_NAME"; then
-                RELEASE_TAG="$KERNEL_NAME-HSKY-1"
+                RELEASE_TAG="$KERNEL_NAME-HSYK1"
             else
                 RELEASE_TAG="$LATEST_TAG"
-                # Increment the release number
-                RELEASE_TAG="$(echo "$RELEASE_TAG" | awk -F'-r' '{suffix=$2; if (!suffix) suffix=0; suffix++; printf "%s-r%d", $1, suffix}')"
+                # Check if it's already using HSYK format
+                if echo "$RELEASE_TAG" | grep -q "HSYK"; then
+                    # Extract current HSYK number and increment
+                    CURRENT_NUM=$(echo "$RELEASE_TAG" | sed -n 's/.*HSYK\([0-9]\+\).*/\1/p')
+                    if [[ -n "$CURRENT_NUM" ]]; then
+                        NEW_NUM=$((CURRENT_NUM + 1))
+                        RELEASE_TAG="$KERNEL_NAME-HSYK$NEW_NUM"
+                    else
+                        # Fallback if extraction fails
+                        RELEASE_TAG="$KERNEL_NAME-HSYK1"
+                    fi
+                else
+                    # Convert from old r format to new HSYK format
+                    # Extract the number from old format (e.g., SuiKernel-r5 -> 5)
+                    OLD_NUM=$(echo "$RELEASE_TAG" | sed -n 's/.*-r\([0-9]\+\).*/\1/p')
+                    if [[ -n "$OLD_NUM" ]]; then
+                        # Start HSYK numbering from the old number + 1
+                        NEW_NUM=$((OLD_NUM + 1))
+                        RELEASE_TAG="$KERNEL_NAME-HSYK$NEW_NUM"
+                    else
+                        # Fallback if we can't extract the old number
+                        RELEASE_TAG="$KERNEL_NAME-HSYK1"
+                    fi
+                fi
             fi
 
             echo "Release tag: $RELEASE_TAG"
@@ -127,7 +149,7 @@ jobs:
           if [[ -n "$TG_BOT_TOKEN" && -n "$TG_CHAT_ID" ]]; then
             # Simple curl-based notification instead of using functions.sh
             MESSAGE="📦 Release completed! [Click](https://github.com/${{ env.RELEASE_REPO }}/releases/tag/${{ env.RELEASE_TAG }})"
-            
+
             curl -s -X POST "https://api.telegram.org/bot$TG_BOT_TOKEN/sendMessage" \
               -d chat_id="$TG_CHAT_ID" \
               -d text="$MESSAGE" \
