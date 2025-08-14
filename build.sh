@@ -90,7 +90,7 @@ if ksu_included; then
 
   # Install kernelsu
   case "$KSU" in
-    "Next") install_ksu bintang774/KernelSU-Next $(if susfs_included; then echo "next-susfs"; else echo "next"; fi) ;;
+    "Next") install_ksu LoggingNewMemory/KernelSU-Next $(if susfs_included; then echo "next-susfs"; else echo "next"; fi) ;;
     "Suki") install_ksu SukiSU-Ultra/SukiSU-Ultra $(if susfs_included; then echo "susfs-main"; elif ksu_manual_hook; then echo "nongki"; else echo "main"; fi) ;;
   esac
   config --enable CONFIG_KSU
@@ -100,7 +100,7 @@ fi
 if susfs_included; then
   # Kernel-side
   log "Applying kernel-side susfs patches"
-  git clone --depth=1 -q https://gitlab.com/simonpunk/susfs4ksu \
+  git clone --depth=1 -q https://gitlab.com/simonpunk/susfs4ksu   
     -b gki-android12-5.10 \
     $workdir/susfs
   SUSFS_PATCHES=$workdir/susfs/kernel_patches
