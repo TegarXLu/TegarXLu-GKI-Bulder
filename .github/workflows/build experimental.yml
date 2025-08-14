@@ -71,16 +71,11 @@ jobs:
             echo "TRIGGER=workflow_dispatch" >> $GITHUB_ENV
           fi
 
-      - name: Override Kernel Branch for Experimental
-        run: |
-          # Override the kernel branch to experimental
-          echo "KERNEL_BRANCH_OVERRIDE=suikernel-experimental" >> $GITHUB_ENV
-
       - name: Validate Inputs and Secrets
         env:
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }} # telegram chat id
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }} # telegram bot token
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # github token
           KSU: ${{ inputs.KSU }}
           KSU_SUSFS: ${{ inputs.KSU_SUSFS }}
           KSU_MANUAL_HOOK: ${{ inputs.KSU_MANUAL_HOOK }}
@@ -125,9 +120,9 @@ jobs:
 
       - name: Run Build Script
         env:
-          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
-          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }}
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }} # telegram chat id
+          TG_BOT_TOKEN: ${{ secrets.TG_BOT_TOKEN }} # telegram bot token
+          GH_TOKEN: ${{ secrets.GH_TOKEN }} # github token
           KSU: ${{ inputs.KSU }}
           KSU_SUSFS: ${{ inputs.KSU_SUSFS }}
           KSU_MANUAL_HOOK: ${{ inputs.KSU_MANUAL_HOOK }}
@@ -142,7 +137,7 @@ jobs:
       - name: Upload Artifacts (ZIP & IMG)
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ env.BASE_NAME }}-experimental-${{ github.run_number }}
+          name: ${{ env.BASE_NAME }}-${{ github.run_number }}
           path: |
             artifacts/*.zip
             artifacts/*.img
@@ -150,5 +145,5 @@ jobs:
       - name: Upload Artifacts (Info File)
         uses: actions/upload-artifact@v4
         with:
-          name: info-experimental-${{ github.run_number }}
+          name: info-${{ github.run_number }}
           path: artifacts/*.txt
