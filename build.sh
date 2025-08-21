@@ -100,9 +100,7 @@ fi
 if susfs_included; then
   # Kernel-side
   log "Applying kernel-side susfs patches"
-  git clone --depth=1 -q https://gitlab.com/simonpunk/susfs4ksu   
-    -b gki-android12-5.10 \
-    $workdir/susfs
+  git clone --depth=1 -q -b gki-android12-5.10 https://gitlab.com/simonpunk/susfs4ksu $workdir/susfs
   SUSFS_PATCHES=$workdir/susfs/kernel_patches
   cp -R $SUSFS_PATCHES/fs/* ./fs
   cp -R $SUSFS_PATCHES/include/* ./include
