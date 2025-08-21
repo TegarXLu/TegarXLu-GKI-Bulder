@@ -1,26 +1,11 @@
 name: Build GKI (Experimental)
 
 on:
-  workflow_call:
-    inputs:
-      TODO:
-        type: string
-      KSU:
-        type: string
-      KSU_SUSFS:
-        type: string
-      KSU_MANUAL_HOOK:
-        type: string
-      BUILD_BOOTIMG:
-        type: string
-      LAST_BUILD:
-        type: string
-
   workflow_dispatch:
     inputs:
       TODO:
         description: To do
-        default: ""
+        default: "kernel"
         type: choice
         options:
           - "kernel"
@@ -28,7 +13,7 @@ on:
 
       KSU:
         description: KernelSU variant
-        default: ""
+        default: "Suki"
         type: choice
         options:
           - "None"
