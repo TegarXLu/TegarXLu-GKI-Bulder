@@ -118,6 +118,11 @@ jobs:
           sudo aptitude install -y libssl-dev
           pip install lxml
 
+      - name: Authenticate gh CLI
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        run: gh auth login --with-token <<< "$GH_TOKEN"
+
       - name: Run Build Script
         env:
           TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }} # telegram chat id
