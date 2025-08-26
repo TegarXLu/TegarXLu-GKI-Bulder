@@ -154,6 +154,7 @@ text=$(
 📛 *KernelSU*: ${KSU}$(ksu_included && echo " | $KSU_VERSION")
 ඞ *SuSFS*: $(susfs_included && echo "$SUSFS_VERSION" || echo "None")
 🔰 *Compiler*: $COMPILER_STRING
+😸 *Kakangkuh*: 100
 EOF
 )
 MESSAGE_ID=$(send_msg "$text" 2>&1 | jq -r .result.message_id)
