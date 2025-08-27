@@ -113,9 +113,15 @@ fi
 
 # KSU Manual Hooks
 if ksu_manual_hook; then
-  # Apply manual hook patch
-  log "Applying manual hook patch"
-  patch -p1 < $workdir/kernel-patches/manual-hook.patch
+  # Apply manual hook patch based on KSU variant
+  if [[ $KSU == "Suki" ]]; then
+    log "Applying manual hook patch for SukiSU (syscall_hooks.patch)"
+    patch -p1 < $workdir/kernel-patches/syscall_hooks.patch
+  else
+    log "Applying manual hook patch for KernelSU (manual-hook.patch)"
+    patch -p1 < $workdir/kernel-patches/manual-hook.patch
+  fi
+
   config --enable CONFIG_KSU_MANUAL_HOOK
   config --disable CONFIG_KSU_KPROBES_HOOK
   config --disable CONFIG_KSU_SUSFS_SUS_SU # Conflicts with manual hook
