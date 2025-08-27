@@ -136,9 +136,11 @@ jobs:
             -> KSUNext ${{ env.KSU_NEXT_VERSION }}
             -> SukiKSU ${{ env.SUKISU_VERSION }}
             -> SUSFS ඞ ${{ env.SUSFS_VERSION }}
+            -> Kakangkuh: 100
 
             #### ✍️ Notes
             -> This kernel only for GKI android12-5.10 device
+            -> Aduh Kang... Kakangkuh
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
