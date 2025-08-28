@@ -3,6 +3,9 @@ name: Build GKI
 on:
   workflow_call:
     inputs:
+      RUNNER_TYPE:
+        type: string
+        default: 'self-hosted'
       TODO:
         type: string
       KSU:
@@ -18,6 +21,14 @@ on:
 
   workflow_dispatch:
     inputs:
+      RUNNER_TYPE:
+        description: Choose the runner type
+        default: "self-hosted"
+        type: choice
+        options:
+          - "self-hosted"
+          - "ubuntu-latest"
+
       TODO:
         description: To do
         default: ""
@@ -53,7 +64,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ${{ inputs.RUNNER_TYPE }}
 
     steps:
       - name: Checkout source
