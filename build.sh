@@ -73,8 +73,6 @@ fi
 
 cd $KSRC
 
-## Xiaomi Garnet Patch from Goten
-
 ## KernelSU setup
 if ksu_included; then
   # Remove existing KernelSU drivers
