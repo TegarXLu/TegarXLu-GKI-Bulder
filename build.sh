@@ -73,6 +73,8 @@ fi
 
 cd $KSRC
 
+## Xiaomi Garnet Patch from Goten
+
 ## KernelSU setup
 if ksu_included; then
   # Remove existing KernelSU drivers
@@ -191,8 +193,29 @@ if [[ $KSU == "Suki" ]]; then
   tempdir=$(mktemp -d) && cd $tempdir
 
   # Setup patching tool
-  LATEST_SUKISU_PATCH=$(curl -s "https://api.github.com/repos/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/latest" | grep "browser_download_url" | grep "patch_linux" | cut -d '"' -f 4)
-  wget "$LATEST_SUKISU_PATCH" -O patch_linux
+  log "Fetching SukiSU patcher URL..."
+  LATEST_SUKISU_PATCH=""
+  for i in {1..5}; do
+      # Use jq for robust JSON parsing and get the first matching URL
+      LATEST_SUKISU_PATCH=$(curl -s "https://api.github.com/repos/SukiSU-Ultra/SukiSU_KernelPatch_patch/releases/latest" | jq -r '.assets[] | select(.name | endswith("patch_linux")) | .browser_download_url' | head -n 1)
+
+      if [[ -n "$LATEST_SUKISU_PATCH" ]]; then
+          log "URL found successfully."
+          break # Exit loop if URL is found
+      fi
+
+      log "Attempt $i/5 failed to get URL. Retrying in 3 seconds..."
+      sleep 3
+  done
+
+  # If the variable is still empty after all retries, exit with an error
+  if [[ -z "$LATEST_SUKISU_PATCH" ]]; then
+      error "Could not fetch SukiSU patcher URL after 5 attempts. Aborting."
+      exit 1
+  fi
+
+  log "Downloading SukiSU patcher..."
+  wget --tries=5 --timeout=30 -qO patch_linux "$LATEST_SUKISU_PATCH"
   chmod a+x ./patch_linux
 
   # Patch the kernel image

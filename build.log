@@ -1,7 +1,4 @@
 [LOG] Cloning kernel source from LoggingNewMemory/SuiKernel-android12-5.10
-[LOG] Setting KernelSU variant...
-[LOG] 🔽 Cloning Clang...
-[LOG] 🔽 Cloning GCC...
-/mnt/7B4DDB8B5E07F8FE/Code/SuiKernel/SuiKernel-GKI-Bulder/build.sh: line 160: jq: command not found
-[ERROR] Failed at line 160 [MESSAGE_ID=$(send_msg "$text" 2>&1 | jq -r .result.message_id)]
+fatal: destination path '/mnt/7B4DDB8B5E07F8FE/Code/SuiKernel/SuiKernel-GKI-Bulder/ksrc' already exists and is not an empty directory.
+[ERROR] Failed at line 19 [git clone -q --depth=1 $KERNEL_REPO -b $KERNEL_BRANCH $KSRC]
 {"ok":false,"error_code":404,"description":"Not Found"}{"ok":false,"error_code":404,"description":"Not Found"}
