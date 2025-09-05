@@ -15,8 +15,6 @@ KERNEL_BRANCH="Templar"
 KERNEL_DEFCONFIG="gki_defconfig"
 # Release repository
 GKI_RELEASES_REPO="https://github.com/TegarXLu/GKI_kernel_Build"
-# Clang
-CLANG_URL="https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+/refs/heads/main/clang-r547379"
 # Zip name
 # Format: Kernel_name-Linux_version-Variant-Build_date
 ZIP_NAME="$KERNEL_NAME-KVER-VARIANT-BUILD_DATE.zip"
